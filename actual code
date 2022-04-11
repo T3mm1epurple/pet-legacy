@@ -1,0 +1,191 @@
+local DiscordLib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt")()
+
+local win = DiscordLib:Window("pet legacy autofarm")
+
+local serv = win:Server("Main", "")
+
+local mappl
+local autofarm
+local petattack = false
+local capsule
+local capname
+local petrar
+local capamount = 1
+
+local tgls = serv:Channel("Auto-Farm")
+
+local drop = tgls:Dropdown("Auto-Farm Place",{"Desert","Forest","Cavern","Beach","Jungle"}, function(places)
+print(places)
+mappl = places
+print(mappl)
+end)
+
+tgls:Toggle("Auto-Farm",false, function(toggle)
+print(toggle)
+autofarm = toggle
+petattack = false
+end)
+
+local cap = serv:Channel("Capsules")
+
+local drop = cap:Dropdown("Capsule (use for autobuy also)",{"Basic","Pro","Mythic","Alpha"}, function(places)
+print(places)
+capname = places
+print(capname)
+end)
+
+local drop = cap:Dropdown("Pet Rarity",{"Basic","Rare","Epic","Legendary","All"}, function(places)
+print(places)
+petrar = places
+print(petrar)
+end)
+
+cap:Toggle("Auto Capsule (only works with autofarm)",false, function(toggle)
+print(toggle)
+capsule = toggle
+end)
+
+cap:Label("Auto-buy Capsules")
+
+local sldr = cap:Slider("Capsule Amount", 0, 25, 1, function(t)
+print(t)
+capamount = t
+end)
+
+cap:Button("Buy Capsules", function()
+for i=1, capamount do
+local args = {
+    [1] = capname
+}
+
+game:GetService("ReplicatedStorage").Functions.Progress.BuyCapsule:FireServer(unpack(args))
+end
+DiscordLib:Notification("Notification", "Bought Capsules", "Okay")
+end)
+
+local fun = serv:Channel("Fun")
+
+fun:Toggle("Invisible Pets",false, function(toggle)
+if toggle == true then
+local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyPosition.MaxForce = Vector3.new(0,0,0)
+end
+else
+  local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyPosition.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+end  
+end
+end)
+
+fun:Toggle("Lag Pets",false, function(toggle)
+if toggle == true then
+local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyPosition.D = 0
+end
+else
+local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyPosition.D = 1250
+end
+end
+end)
+
+fun:Toggle("Slow fall pets",false, function(toggle)
+if toggle == true then
+local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyPosition.P = 0
+end
+else
+local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyPosition.P = 100000
+end
+end
+end)
+
+fun:Toggle("Spinning pets",false, function(toggle)
+if toggle == true then
+local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyGyro.D = 0
+end
+else
+local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyGyro.D = 500
+end
+end
+end)
+
+local sldr = fun:Slider("Pet Turn Speed", 0, 10000, 0, function(t)
+local k = workspace.Pets:GetChildren()
+for g=1, #k do
+k[g].root.BodyGyro.P = t
+end
+end)
+
+local enemy = nil
+
+while wait() do
+if autofarm == true then
+local maps = workspace.Map.Areas:GetChildren()
+print(mappl)
+for i=1, #maps do
+if (maps[i].Name == mappl) then
+print(mappl)
+map = maps[i]
+end
+end
+local s = map.Spots:GetChildren()
+for f=1, #s do
+if (s[f].Name ~= "Empty") then
+if petattack == false then
+    petattack = true
+local plr = game.Players.LocalPlayer
+plr.Character.HumanoidRootPart.CFrame = CFrame.new(s[f].Position)
+wait(1)
+local newarg = {
+    [1] = s[f].Name
+}
+game:GetService("ReplicatedStorage").Functions.Combat.SendFighters:FireServer(unpack(newarg))
+enemy = s[f]
+end
+end
+if (enemy.Name == "Empty") then
+petattack = false
+end
+end
+end
+if capsule == true then
+    if enemy ~= nil then
+    print("Test")
+if petrar == "All" then
+local args = {
+    [1] = capname,
+    [2] = enemy.Name
+}
+
+game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
+else
+local enemies = workspace.Enemies:GetChildren()
+for k=1, #enemies do
+if (enemies[k].Name == enemy.Name) then
+local modele = enemies[k]
+if modele.headGui.Rarity.Text == petrar then
+local args = {
+    [1] = capname,
+    [2] = enemy.Name
+}
+
+game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
+end
+end
+end
+end
+end
+end
+end
