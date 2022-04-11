@@ -153,10 +153,19 @@ local newarg = {
 }
 game:GetService("ReplicatedStorage").Functions.Combat.SendFighters:FireServer(unpack(newarg))
 enemy = s[f]
+local enemies = workspace.Enemies:GetChildren()
+for k=1, #enemies do
+if (enemies[k].Name == enemy.Name) then
+model = enemies[k]
 end
 end
-if (enemy.Name == "Empty") then
+end
+end
+if model:IsDescendantOf(game) then
+
+else
 petattack = false
+end
 end
 end
 end
