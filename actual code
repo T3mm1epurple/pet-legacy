@@ -171,7 +171,6 @@ end
 end
 end
 end
-end
 if capsule == true then
     if enemy ~= nil then
     print("Test")
