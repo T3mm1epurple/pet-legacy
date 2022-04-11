@@ -129,6 +129,7 @@ end
 end)
 
 local enemy = nil
+local model = nil
 
 while wait() do
 if autofarm == true then
@@ -161,10 +162,12 @@ end
 end
 end
 end
+if model ~= nil then
 if model:IsDescendantOf(game) then
 
 else
 petattack = false
+end
 end
 end
 end
