@@ -162,6 +162,7 @@ end
 end
 end
 end
+end
 if model ~= nil then
 if model:IsDescendantOf(game) then
 
@@ -193,7 +194,6 @@ local args = {
 }
 
 game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
-end
 end
 end
 end
