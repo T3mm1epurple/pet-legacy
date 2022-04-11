@@ -46,6 +46,7 @@ capsule = toggle
 end)
 
 cap:Label("Auto-buy Capsules")
+cap:Label("test text")
 
 local sldr = cap:Slider("Capsule Amount", 0, 25, 1, function(t)
 print(t)
