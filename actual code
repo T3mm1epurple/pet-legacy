@@ -137,7 +137,6 @@ local maps = workspace.Map.Areas:GetChildren()
 print(mappl)
 for i=1, #maps do
 if (maps[i].Name == mappl) then
-print(mappl)
 map = maps[i]
 end
 end
@@ -163,9 +162,13 @@ end
 end
 end
 end
-if model ~= nil then
+local enemies = workspace.Enemies:GetChildren()
+for k=1, #enemies do
+if model == enemies[k] then
 if not model:IsDescendantOf(game) then
 petattack = false
+end
+end
 end
 end
 end
