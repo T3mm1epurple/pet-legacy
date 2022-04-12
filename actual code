@@ -6,12 +6,15 @@ local serv = win:Server("Main", "")
 
 local mappl
 local autofarm
+local normauto
+local automethod
 local petattack = false
 local capsule
 local capname
 local petrar
 local capamount = 1
-
+local enemy = nil
+local model = nil
 local tgls = serv:Channel("Auto-Farm")
 
 local drop = tgls:Dropdown("Auto-Farm Place",{"Desert","Forest","Cavern","Beach","Jungle"}, function(places)
@@ -20,32 +23,39 @@ mappl = places
 print(mappl)
 end)
 
+local drop = tgls:Dropdown("Auto-Farm Method",{"Very Fast"}, function(places)
+print(places)
+automethod = places
+end)
+
+tgls:Label("more options coming soon")
+
 tgls:Toggle("Auto-Farm",false, function(toggle)
 print(toggle)
-autofarm = toggle
 petattack = false
+enemy = nil
+model = nil
+autofarm = false
+normauto = false
+if automethod == "Very Fast" then
+autofarm = toggle
+print(autofarm)
+end
+if automethod == "Normal" then
+normauto = toggle
+print(normauto)
+end
 end)
 
 local cap = serv:Channel("Capsules")
 
-local drop = cap:Dropdown("Capsule (use for autobuy also)",{"Basic","Pro","Mythic","Alpha"}, function(places)
+local drop = cap:Dropdown("Capsule",{"Basic","Pro","Mythic","Alpha"}, function(places)
 print(places)
 capname = places
 print(capname)
 end)
 
-local drop = cap:Dropdown("Pet Rarity",{"Basic","Rare","Epic","Legendary","All"}, function(places)
-print(places)
-petrar = places
-print(petrar)
-end)
-
-cap:Toggle("Auto Capsule (only works with autofarm)",false, function(toggle)
-print(toggle)
-capsule = toggle
-end)
-
-cap:Label("Auto-buy Capsules")
+cap:Label("AUTO CAPSULE IS BROKEN I REMOVED IT")
 
 local sldr = cap:Slider("Capsule Amount", 0, 25, 1, function(t)
 print(t)
@@ -64,6 +74,8 @@ DiscordLib:Notification("Notification", "Bought Capsules", "Okay")
 end)
 
 local fun = serv:Channel("Fun")
+
+fun:Label("THESE ARE SEEN BY ALL PLAYERS (NOT LOCAL)")
 
 fun:Toggle("Invisible Pets",false, function(toggle)
 if toggle == true then
@@ -128,13 +140,9 @@ k[g].root.BodyGyro.P = t
 end
 end)
 
-local enemy = nil
-local model = nil
-
 while wait() do
 if autofarm == true then
 local maps = workspace.Map.Areas:GetChildren()
-print(mappl)
 for i=1, #maps do
 if (maps[i].Name == mappl) then
 map = maps[i]
@@ -146,8 +154,43 @@ local enemies = workspace.Enemies:GetChildren()
 for k=1, #enemies do
 if (enemies[k].Name == s[f].Name) then
 if petattack == false then
-if enemies[k]:IsDescendantOf(game) then
-local model = enemies[k]
+    petattack = true
+    
+local plr = game.Players.LocalPlayer
+plr.Character.HumanoidRootPart.CFrame = CFrame.new(s[f].Position)
+wait(1)
+local newarg = {
+    [1] = s[f].Name
+}
+game:GetService("ReplicatedStorage").Functions.Combat.SendFighters:FireServer(unpack(newarg))
+enemy = s[f]
+model = enemies[k]
+end
+end
+end
+end
+if model ~= nil then
+if model.Parent == workspace:WaitForChild("Killed") then
+print("BECAMEFALSE")
+petattack = false
+end
+end
+end
+end
+if normauto == true then
+print("???")
+local maps = workspace.Map.Areas:GetChildren()
+print(mappl)
+for i=1, #maps do
+if (maps[i].Name == mappl) then
+print(mappl)
+map = maps[i]
+end
+end
+local s = map.Spots:GetChildren()
+for f=1, #s do
+if (s[f].Name ~= "Empty") then
+if petattack == false then
     petattack = true
 local plr = game.Players.LocalPlayer
 plr.Character.HumanoidRootPart.CFrame = CFrame.new(s[f].Position)
@@ -160,16 +203,9 @@ enemy = s[f]
 end
 end
 end
-end
-end
-local enemies = workspace.Enemies:GetChildren()
-for k=1, #enemies do
-if model == enemies[k] then
-if not model:IsDescendantOf(game) then
+if enemy ~= nil then
+if (enemy.Name == "Empty") then
 petattack = false
-end
-end
-end
 end
 end
 end
