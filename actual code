@@ -9,7 +9,7 @@ local autofarm
 local normauto
 local automethod
 local petattack = false
-local capsule
+local capsule = false
 local waitamo = 0
 local capname
 local petrar
@@ -55,12 +55,21 @@ end)
 
 local cap = serv:Channel("Capsules")
 
-cap:Label("AUTO CAPSULE IS BROKEN I REMOVED IT")
-
-local drop = cap:Dropdown("Capsule",{"Basic","Pro","Mythic","Alpha"}, function(places)
+local drop = cap:Dropdown("Capsule (use for autobuy too)",{"Basic","Pro","Mythic","Alpha"}, function(places)
 print(places)
 capname = places
 print(capname)
+end)
+
+local drop = cap:Dropdown("Pet Rarity",{"Basic","Rare","Epic","Legendary", "Mythical", "All"}, function(places)
+print(places)
+petrar = places
+print(capname)
+end)
+
+cap:Toggle("Auto Capture",false, function(newthing)
+print(newthing)
+capsule = newthing
 end)
 
 local sldr = cap:Slider("Capsule Amount", 0, 25, 1, function(t)
@@ -147,6 +156,36 @@ end
 end)
 
 while wait() do
+    if capsule == true then
+    if enemy ~= nil then
+    print("Test")
+if petrar == "All" then
+local args = {
+    [1] = capname,
+    [2] = enemy.Name
+}
+
+game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
+else
+if enemy ~= nil then
+local enemies = workspace.Enemies:GetChildren()
+for k=1, #enemies do
+if (enemies[k].Name == enemy.Name) then
+local modele = enemies[k]
+if modele.headGui.Rarity.Text == petrar then
+local args = {
+    [1] = capname,
+    [2] = enemy.Name
+}
+
+game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
+end
+end
+end
+end
+end
+end
+end
 if autofarm == true then
 local maps = workspace.Map.Areas:GetChildren()
 for i=1, #maps do
@@ -180,66 +219,6 @@ if model.Parent == workspace:WaitForChild("Killed") then
 wait(waitamo)
 print("BECAMEFALSE")
 petattack = false
-end
-end
-end
-end
-if normauto == true then
-print("???")
-local maps = workspace.Map.Areas:GetChildren()
-print(mappl)
-for i=1, #maps do
-if (maps[i].Name == mappl) then
-print(mappl)
-map = maps[i]
-end
-end
-local s = map.Spots:GetChildren()
-for f=1, #s do
-if (s[f].Name ~= "Empty") then
-if petattack == false then
-    petattack = true
-local plr = game.Players.LocalPlayer
-plr.Character.HumanoidRootPart.CFrame = CFrame.new(s[f].Position)
-wait(1)
-local newarg = {
-    [1] = s[f].Name
-}
-game:GetService("ReplicatedStorage").Functions.Combat.SendFighters:FireServer(unpack(newarg))
-enemy = s[f]
-end
-end
-end
-if enemy ~= nil then
-if (enemy.Name == "Empty") then
-petattack = false
-end
-end
-end
-if capsule == true then
-    if enemy ~= nil then
-    print("Test")
-if petrar == "All" then
-local args = {
-    [1] = capname,
-    [2] = enemy.Name
-}
-
-game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
-else
-local enemies = workspace.Enemies:GetChildren()
-for k=1, #enemies do
-if (enemies[k].Name == enemy.Name) then
-local modele = enemies[k]
-if modele.headGui.Rarity.Text == petrar then
-local args = {
-    [1] = capname,
-    [2] = enemy.Name
-}
-
-game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
-end
-end
 end
 end
 end
