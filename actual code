@@ -10,6 +10,7 @@ local normauto
 local automethod
 local petattack = false
 local capsule
+local waitamo = 0
 local capname
 local petrar
 local capamount = 1
@@ -28,7 +29,12 @@ print(places)
 automethod = places
 end)
 
-tgls:Label("more options coming soon")
+tgls:Label("the less the faster for below")
+
+local sldr = tgls:Slider("wait after enemy death", 0, 5, 0, function(t)
+print(t)
+waitamo = t
+end)
 
 tgls:Toggle("Auto-Farm",false, function(toggle)
 print(toggle)
@@ -49,13 +55,13 @@ end)
 
 local cap = serv:Channel("Capsules")
 
+cap:Label("AUTO CAPSULE IS BROKEN I REMOVED IT")
+
 local drop = cap:Dropdown("Capsule",{"Basic","Pro","Mythic","Alpha"}, function(places)
 print(places)
 capname = places
 print(capname)
 end)
-
-cap:Label("AUTO CAPSULE IS BROKEN I REMOVED IT")
 
 local sldr = cap:Slider("Capsule Amount", 0, 25, 1, function(t)
 print(t)
@@ -171,6 +177,7 @@ end
 end
 if model ~= nil then
 if model.Parent == workspace:WaitForChild("Killed") then
+wait(waitamo)
 print("BECAMEFALSE")
 petattack = false
 end
