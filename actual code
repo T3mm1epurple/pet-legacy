@@ -164,9 +164,7 @@ end
 end
 end
 if model ~= nil then
-if model:IsDescendantOf(game) then
-
-else
+if not model:IsDescendantOf(game) then
 petattack = false
 end
 end
