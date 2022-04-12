@@ -143,7 +143,6 @@ end
 end
 local s = map.Spots:GetChildren()
 for f=1, #s do
-if (s[f].Name ~= "Empty") then
 local enemies = workspace.Enemies:GetChildren()
 for k=1, #enemies do
 if (enemies[k].Name == s[f].Name) then
@@ -159,7 +158,6 @@ local newarg = {
 }
 game:GetService("ReplicatedStorage").Functions.Combat.SendFighters:FireServer(unpack(newarg))
 enemy = s[f]
-end
 end
 end
 end
