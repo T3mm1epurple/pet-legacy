@@ -11,6 +11,7 @@ local automethod
 local petattack = false
 local capsule = false
 local waitamo = 0
+local capcount = 10
 local capname
 local petrar
 local capamount = 1
@@ -67,7 +68,7 @@ petrar = places
 print(capname)
 end)
 
-cap:Toggle("Auto Capture",false, function(newthing)
+cap:Toggle("Auto Capture (has infinite inv)",false, function(newthing)
 print(newthing)
 capsule = newthing
 end)
@@ -159,13 +160,16 @@ while wait() do
     if capsule == true then
     if enemy ~= nil then
     print("Test")
+if model.Parent == workspace.Killed then
 if petrar == "All" then
+for i=1, capcount do
 local args = {
     [1] = capname,
     [2] = enemy.Name
 }
 
 game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
+end
 else
 if enemy ~= nil then
 local enemies = workspace.Enemies:GetChildren()
@@ -173,12 +177,15 @@ for k=1, #enemies do
 if (enemies[k].Name == enemy.Name) then
 local modele = enemies[k]
 if modele.headGui.Rarity.Text == petrar then
+for i=1, capcount do
 local args = {
     [1] = capname,
     [2] = enemy.Name
 }
 
 game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
+end
+end
 end
 end
 end
