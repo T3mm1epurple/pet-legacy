@@ -146,7 +146,7 @@ for f=1, #s do
 if (s[f].Name ~= "Empty") then
 local enemies = workspace.Enemies:GetChildren()
 for k=1, #enemies do
-if (enemies[k].Name == enemy.Name) then
+if (enemies[k].Name == s[f].Name) then
 if petattack == false then
 local model = enemies[k]
 if model:IsDescendantOf(game) then
