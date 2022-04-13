@@ -156,10 +156,17 @@ k[g].root.BodyGyro.P = t
 end
 end)
 
+local upd = serv:Channel("Update-Log")
+
+upd:Label("Fixed Auto Capture")
+upd:Label("Made Auto-Farm much faster")
+
 while wait() do
     if capsule == true then
     if enemy ~= nil then
-    print("Test")
+    if model.Parent ~= workspace.Killed then
+    modelrarity = model.headGui.Rarity.Text
+    end
 if model.Parent == workspace.Killed then
 if petrar == "All" then
 for i=1, capcount do
@@ -171,22 +178,14 @@ local args = {
 game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
 end
 else
-if enemy ~= nil then
-local enemies = workspace.Enemies:GetChildren()
-for k=1, #enemies do
-if (enemies[k].Name == enemy.Name) then
-local modele = enemies[k]
-if modele.headGui.Rarity.Text == petrar then
-for i=1, capcount do
+if modelrarity == petrar then
+for the=1, capcount do
 local args = {
     [1] = capname,
     [2] = enemy.Name
 }
 
 game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
-end
-end
-end
 end
 end
 end
