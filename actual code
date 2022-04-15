@@ -156,10 +156,17 @@ k[g].root.BodyGyro.P = t
 end
 end)
 
-local upd = serv:Channel("Update-Log")
+local oth = serv:Channel("Other")
 
-upd:Label("Added more options for auto capture")
-upd:Label("Fixed Auto Capture")
+oth:Button("Open Golden UI", function()
+for i,v in pairs(workspace:GetDescendants()) do
+			if v:IsA("ProximityPrompt") then
+			if v.Name == "Golden" then
+				fireproximityprompt(v)
+				end
+			end
+			end
+end)
 
 while wait() do
     if capsule == true then
