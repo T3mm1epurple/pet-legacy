@@ -19,7 +19,7 @@ local enemy = nil
 local model = nil
 local tgls = serv:Channel("Auto-Farm")
 
-local drop = tgls:Dropdown("Auto-Farm Place",{"Desert","Forest","Cavern","Beach","Jungle"}, function(places)
+local drop = tgls:Dropdown("Auto-Farm Place",{"Desert","Forest","Cavern","Beach","Jungle", "Easter"}, function(places)
 print(places)
 mappl = places
 print(mappl)
@@ -56,7 +56,7 @@ end)
 
 local cap = serv:Channel("Capsules")
 
-local drop = cap:Dropdown("Capsule (use for autobuy too)",{"Basic","Pro","Mythic","Alpha"}, function(places)
+local drop = cap:Dropdown("Capsule (use for autobuy too)",{"Basic","Pro","Mythic","Alpha", "BasicEaster", "ProEaster", "AlphaEaster"}, function(places)
 print(places)
 capname = places
 print(capname)
