@@ -62,7 +62,7 @@ capname = places
 print(capname)
 end)
 
-local drop = cap:Dropdown("Pet Rarity",{"Basic","Rare","Epic","Legendary", "Mythical", "All"}, function(places)
+local drop = cap:Dropdown("Pet Rarity",{"Basic","Rare","Epic","Legendary", "Mythical", "Epic and above", "Legendary and Mythical", "All"}, function(places)
 print(places)
 petrar = places
 print(capname)
@@ -158,8 +158,8 @@ end)
 
 local upd = serv:Channel("Update-Log")
 
+upd:Label("Added more options for auto capture")
 upd:Label("Fixed Auto Capture")
-upd:Label("Made Auto-Farm much faster")
 
 while wait() do
     if capsule == true then
@@ -177,6 +177,25 @@ local args = {
 
 game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
 end
+elseif petrar == "Epic and above" then
+if modelrarity == "Epic" or modelrarity == "Legendary" or modelrarity == "Mythical" then
+local args = {
+    [1] = capname,
+    [2] = enemy.Name
+}
+
+game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
+end
+elseif petrar == "Legendary and Mythical" then
+if modelrarity == "Legendary" or modelrarity == "Mythical" then
+local args = {
+    [1] = capname,
+    [2] = enemy.Name
+}
+
+game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
+end
+elseif petrar == "Legendary and Mythical" then
 else
 if modelrarity == petrar then
 for the=1, capcount do
