@@ -74,7 +74,7 @@ print(newthing)
 capsule = newthing
 end)
 
-local sldr = cap:Slider("Capsule Amount", 0, 25, 1, function(t)
+local sldr = cap:Slider("Capsule Amount", 0, 500, 1, function(t)
 print(t)
 capamount = t
 end)
@@ -169,7 +169,7 @@ for i,v in pairs(workspace:GetDescendants()) do
 			end
 end)
 
-oth:Toggle("Make all pets appear in golden making",false, function(toggle)
+oth:Toggle("Make all pets appear in golden making (BROKEN)",false, function(toggle)
 goldent = toggle
 if toggle == true then
 DiscordLib:Notification("HOW TO USE", "click 1 pet (the one you want golden) then click 5 more random ones", "Okay")
@@ -259,14 +259,6 @@ if model.Parent == workspace:WaitForChild("Killed") then
 wait(waitamo)
 print("BECAMEFALSE")
 petattack = false
-end
-end
-end
-if goldent == true then
-local gui = game.Players.LocalPlayer.PlayerGui.MainUI.MainFrame.Golden.ContentFrame.Pets.Container:GetChildren()
-for f=1, #gui do
-if (gui[f].ClassName == "Frame") then
-gui[f].Visible = true
 end
 end
 end
