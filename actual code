@@ -6,7 +6,7 @@ local serv = win:Server("Main", "")
 
 local mappl
 local autofarm
-local normauto
+local moai
 local goldent
 local automethod
 local petattack = false
@@ -26,7 +26,7 @@ mappl = places
 print(mappl)
 end)
 
-local drop = tgls:Dropdown("Auto-Farm Method",{"Very Fast"}, function(places)
+local drop = tgls:Dropdown("Auto-Farm Method",{"Very Fast", "Moai"}, function(places)
 print(places)
 automethod = places
 end)
@@ -49,8 +49,8 @@ if automethod == "Very Fast" then
 autofarm = toggle
 print(autofarm)
 end
-if automethod == "Normal" then
-normauto = toggle
+if automethod == "Moai" then
+moai = toggle
 print(normauto)
 end
 end)
@@ -222,6 +222,31 @@ local args = {
 game:GetService("ReplicatedStorage").Functions.Combat.UseCapsule:InvokeServer(unpack(args))
 end
 end
+end
+end
+end
+end
+if moai == true then
+local enem = workspace.Enemies:GetChildren()
+for th=1, #enem do
+if (enem[th].Name == "Moai") then
+    model = enem[th]
+    if petattack == false then
+    petattack = true
+    local plr = game.Players.LocalPlayer
+plr.Character.HumanoidRootPart.CFrame = CFrame.new(model.moai.Position + Vector3.new(0, 50, 0))
+wait(1)
+local newarg = {
+    [1] = model.Name
+}
+game:GetService("ReplicatedStorage").Functions.Combat.SendFighters:FireServer(unpack(newarg))
+end
+end
+if model ~= nil then
+if not model:IsDescendantOf(game) then
+model = nil
+wait(waitamo)
+petattack = false
 end
 end
 end
